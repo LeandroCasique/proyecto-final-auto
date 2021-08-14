@@ -20,9 +20,7 @@ const getDataTThe2 = () => db.ref('Refrigerador/TThe2').limitToLast(1);
 const getDataTThe3 = () => db.ref('Refrigerador/TThe3').limitToLast(1);
 const getDataTThe4 = () => db.ref('Refrigerador/TThe4').limitToLast(1);
 
-let optionThermistor;
-
-optionThermistor = {
+let optionThermistor = {
     series: [{
             type: 'gauge',
             center: ["50%", "60%"],
@@ -132,9 +130,7 @@ optionThermistor = {
     ],
 };
 
-var optionLine;
-
-optionLine = {
+let optionLine = {
     xAxis: {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -145,26 +141,104 @@ optionLine = {
     series: [{
         data: [25, 30, 45, 48, 10, 15, 55],
         type: 'line',
-        smooth: true
+        smooth: true,
+        lineStyle: {
+            color: "#000"
+        } 
     }]
 };
+
+let optionThermistor1 = { ...optionThermistor };
+let optionThermistor2 = { ...optionThermistor };
+let optionThermistor3 = { ...optionThermistor };
+let optionThermistor4 = { ...optionThermistor };
 
 if (optionLine && typeof optionLine === 'object') {
     line_chart.setOption(optionLine);
 }
 
 if (optionThermistor && typeof optionThermistor === 'object') {
-    ter_1_chart.setOption(optionThermistor);
-    ter_2_chart.setOption(optionThermistor);
-    ter_3_chart.setOption(optionThermistor);
-    ter_4_chart.setOption(optionThermistor);
+    ter_1_chart.setOption(optionThermistor1);
+    ter_2_chart.setOption(optionThermistor2);
+    ter_3_chart.setOption(optionThermistor3);
+    ter_4_chart.setOption(optionThermistor4);
 }
 
-window.addEventListener('DOMContentLoaded', async (e) => {
+const updateDataTThe1 = async () => {
     const querySnapshot = await getDataTThe1();
 
     querySnapshot.on('value', (snapshot) => {
         const data = snapshot.val();
         console.log(data)
+        for (const key in data) {
+            optionThermistor1.series[0].data[0].value = data[key];
+            optionThermistor1.series[1].data[0].value = data[key];
+            ter_1_chart.setOption(optionThermistor1, true);
+        }
     });
+
+    setInterval(() =>{
+        updateDataTThe1();
+    }, 60000)
+};
+
+const updateDataTThe2 = async () => {
+    const querySnapshot = await getDataTThe2();
+
+    querySnapshot.on('value', (snapshot) => {
+        const data = snapshot.val();
+        console.log(data)
+        for (const key in data) {
+            optionThermistor2.series[0].data[0].value = data[key];
+            optionThermistor2.series[1].data[0].value = data[key];
+            ter_2_chart.setOption(optionThermistor2, true);
+        }
+    });
+
+    setInterval(() =>{
+        updateDataTThe2();
+    }, 60000)
+};
+
+const updateDataTThe3 = async () => {
+    const querySnapshot = await getDataTThe3();
+
+    querySnapshot.on('value', (snapshot) => {
+        const data = snapshot.val();
+        console.log(data)
+        for (const key in data) {
+            optionThermistor3.series[0].data[0].value = data[key];
+            optionThermistor3.series[1].data[0].value = data[key];
+            ter_3_chart.setOption(optionThermistor3, true);
+        }
+    });
+
+    setInterval(() =>{
+        updateDataTThe3();
+    }, 60000)
+};
+
+const updateDataTThe4 = async () => {
+    const querySnapshot = await getDataTThe4();
+
+    querySnapshot.on('value', (snapshot) => {
+        const data = snapshot.val();
+        console.log(data)
+        for (const key in data) {
+            optionThermistor4.series[0].data[0].value = data[key];
+            optionThermistor4.series[1].data[0].value = data[key];
+            ter_4_chart.setOption(optionThermistor4, true);
+        }
+    });
+
+    setInterval(() =>{
+        updateDataTThe4();
+    }, 60000)
+};
+
+window.addEventListener('DOMContentLoaded', (e) => {
+    updateDataTThe1();
+    updateDataTThe2();
+    updateDataTThe3();
+    updateDataTThe4();
 });
