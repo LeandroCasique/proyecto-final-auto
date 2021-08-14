@@ -1,5 +1,15 @@
-const dom = document.getElementById("container");
-const myChart = echarts.init(dom);
+const ter_1 = document.getElementById("ter-1");
+const ter_1_chart = echarts.init(ter_1);
+
+const ter_2 = document.getElementById("ter-2");
+const ter_2_chart = echarts.init(ter_2);
+
+const ter_3 = document.getElementById("ter-3");
+const ter_3_chart = echarts.init(ter_3);
+
+const ter_4 = document.getElementById("ter-4");
+const ter_4_chart = echarts.init(ter_4);
+
 let app = {};
 
 let option;
@@ -30,7 +40,7 @@ option = {
                 }
             },
             axisTick: {
-                distance: -45,
+                distance: -30,
                 splitNumber: 5,
                 lineStyle: {
                     width: 2,
@@ -38,7 +48,7 @@ option = {
                 }
             },
             splitLine: {
-                distance: -52,
+                distance: -35,
                 length: 14,
                 lineStyle: {
                     width: 3,
@@ -46,7 +56,7 @@ option = {
                 }
             },
             axisLabel: {
-                distance: -20,
+                distance: -10,
                 color: '#999',
                 fontSize: 12
             },
@@ -114,13 +124,16 @@ option = {
     ],
 };
 
-setInterval(function() {
+/*setInterval(function() {
     let random = (Math.random() * 60).toFixed(2) - 0;
     option.series[0].data[0].value = random;
     option.series[1].data[0].value = random;
     myChart.setOption(option, true);
-}, 2000);
+}, 2000);*/
 
 if (option && typeof option === 'object') {
-    myChart.setOption(option);
+    ter_1_chart.setOption(option);
+    ter_2_chart.setOption(option);
+    ter_3_chart.setOption(option);
+    ter_4_chart.setOption(option);
 }
