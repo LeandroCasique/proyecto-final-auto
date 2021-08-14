@@ -139,7 +139,8 @@ optionLine = {
         data: [25, 30, 45, 48, 10, 15, 55],
         type: 'line',
         smooth: true
-    }]
+    }],
+    color: 1,
 };
 
 if (optionLine && typeof optionLine === 'object') {
