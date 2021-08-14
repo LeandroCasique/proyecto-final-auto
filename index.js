@@ -13,6 +13,13 @@ const ter_4_chart = echarts.init(ter_4);
 const line = document.getElementById("line-chart");
 const line_chart = echarts.init(line);
 
+const db = firebase.database();
+
+const getDataTThe1 = () => db.ref('Refrigerador/TThe1').limitToLast(1);
+const getDataTThe2 = () => db.ref('Refrigerador/TThe2').limitToLast(1);
+const getDataTThe3 = () => db.ref('Refrigerador/TThe3').limitToLast(1);
+const getDataTThe4 = () => db.ref('Refrigerador/TThe4').limitToLast(1);
+
 let optionThermistor;
 
 optionThermistor = {
@@ -152,3 +159,12 @@ if (optionThermistor && typeof optionThermistor === 'object') {
     ter_3_chart.setOption(optionThermistor);
     ter_4_chart.setOption(optionThermistor);
 }
+
+window.addEventListener('DOMContentLoaded', async (e) => {
+    const querySnapshot = await getDataTThe1();
+
+    querySnapshot.on('value', (snapshot) => {
+        const data = snapshot.val();
+        console.log(data)
+    });
+});
