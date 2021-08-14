@@ -15,10 +15,17 @@ const line_chart = echarts.init(line);
 
 const db = firebase.database();
 
-const getDataTThe1 = () => db.ref('Refrigerador/TThe1').limitToLast(1);
-const getDataTThe2 = () => db.ref('Refrigerador/TThe2').limitToLast(1);
-const getDataTThe3 = () => db.ref('Refrigerador/TThe3').limitToLast(1);
-const getDataTThe4 = () => db.ref('Refrigerador/TThe4').limitToLast(1);
+const getDataTTh = (nameCollection, limt = 1) => db.ref(nameCollection).limitToLast(limt);
+
+const getDataHora = (limt = 1) =>  db.ref('Refrigerador/Hora').limitToLast(limt);
+const getDataMinutos = (limt = 1) =>  db.ref('Refrigerador/Minutos').limitToLast(limt);
+const getDataDia = (limt = 1) =>  db.ref('Refrigerador/Dia').limitToLast(limt);
+const getDataMes = (limt = 1) =>  db.ref('Refrigerador/Mes').limitToLast(limt);
+const getDataAño = (limt = 1) =>  db.ref('Refrigerador/Ano').limitToLast(limt);
+
+let valueForChartLine = 'Refrigerador/TThe1';
+
+let refSetIntervalLine = null;
 
 let optionThermistor = {
     series: [{
@@ -134,15 +141,18 @@ let optionThermistor = {
 };
 
 let optionLine = {
+    tooltip: {
+        trigger: 'axis'
+    },
     xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: []
     },
     yAxis: {
         type: 'value'
     },
     series: [{
-        data: [25, 30, 45, 48, 10, 15, 55],
+        data: [],
         type: 'line',
         smooth: true,
         lineStyle: {
@@ -168,11 +178,11 @@ if (optionThermistor && typeof optionThermistor === 'object') {
 }
 
 const updateDataTThe1 = async () => {
-    const querySnapshot = await getDataTThe1();
+    const querySnapshot = await getDataTTh('Refrigerador/TThe1');
 
     querySnapshot.on('value', (snapshot) => {
         const data = snapshot.val();
-        console.log(data)
+
         for (const key in data) {
             optionThermistor1.series[0].data[0].value = data[key];
             optionThermistor1.series[1].data[0].value = data[key];
@@ -186,11 +196,11 @@ const updateDataTThe1 = async () => {
 };
 
 const updateDataTThe2 = async () => {
-    const querySnapshot = await getDataTThe2();
+    const querySnapshot = await getDataTTh('Refrigerador/TThe2');
 
     querySnapshot.on('value', (snapshot) => {
         const data = snapshot.val();
-        console.log(data)
+
         for (const key in data) {
             optionThermistor2.series[0].data[0].value = data[key];
             optionThermistor2.series[1].data[0].value = data[key];
@@ -204,11 +214,11 @@ const updateDataTThe2 = async () => {
 };
 
 const updateDataTThe3 = async () => {
-    const querySnapshot = await getDataTThe3();
+    const querySnapshot = await getDataTTh('Refrigerador/TThe3');
 
     querySnapshot.on('value', (snapshot) => {
         const data = snapshot.val();
-        console.log(data)
+
         for (const key in data) {
             optionThermistor3.series[0].data[0].value = data[key];
             optionThermistor3.series[1].data[0].value = data[key];
@@ -222,11 +232,11 @@ const updateDataTThe3 = async () => {
 };
 
 const updateDataTThe4 = async () => {
-    const querySnapshot = await getDataTThe4();
+    const querySnapshot = await getDataTTh('Refrigerador/TThe4');
 
     querySnapshot.on('value', (snapshot) => {
         const data = snapshot.val();
-        console.log(data)
+
         for (const key in data) {
             optionThermistor4.series[0].data[0].value = data[key];
             optionThermistor4.series[1].data[0].value = data[key];
@@ -239,9 +249,189 @@ const updateDataTThe4 = async () => {
     }, 60000)
 };
 
+const updateDataLine = async (nameTTh) => {
+    if(refSetIntervalLine) {
+        console.log('clear')
+        clearInterval(refSetIntervalLine);
+    }
+
+    const [
+        dataTThe,
+        dataMin,
+        dataHora,
+        dataDia,
+        dataMes,
+        dataYear
+    ] = await Promise.all([
+        new Promise(async (resolve, reject) => {
+            const querySnapshotTThe = await getDataTTh(nameTTh, 100);
+            let dataReturn = [];
+            querySnapshotTThe.on('value', (snapshot) => {
+                const data = snapshot.val();
+
+                for (const key in data) {
+                    dataReturn.push(data[key]);
+                }
+
+                resolve(dataReturn);
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const querySnapshot = await getDataMinutos(100);
+            let dataReturn = [];
+            querySnapshot.on('value', (snapshot) => {
+                const data = snapshot.val();
+
+                for (const key in data) {
+                    dataReturn.push(data[key]);
+                }
+
+                resolve(dataReturn);
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const querySnapshot = await getDataHora(100);
+            let dataReturn = [];
+            querySnapshot.on('value', (snapshot) => {
+                const data = snapshot.val();
+
+                for (const key in data) {
+                    dataReturn.push(data[key]);
+                }
+
+                resolve(dataReturn);
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const querySnapshot = await getDataDia(100);
+            let dataReturn = [];
+            querySnapshot.on('value', (snapshot) => {
+                const data = snapshot.val();
+
+                for (const key in data) {
+                    dataReturn.push(data[key]);
+                }
+
+                resolve(dataReturn);
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const querySnapshot = await getDataMes(100);
+            let dataReturn = [];
+            querySnapshot.on('value', (snapshot) => {
+                const data = snapshot.val();
+
+                for (const key in data) {
+                    dataReturn.push(data[key]);
+                }
+
+                resolve(dataReturn);
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            const querySnapshot = await getDataAño(100);
+            let dataReturn = [];
+            querySnapshot.on('value', (snapshot) => {
+                const data = snapshot.val();
+
+                for (const key in data) {
+                    dataReturn.push(data[key]);
+                }
+
+                resolve(dataReturn);
+            });
+        })
+    ]);
+
+    let dataXaxis = [];
+
+    for(let i = 0; i < dataTThe.length; i++) {
+        dataXaxis.push(`${dataYear[i]}:${dataMes[i]}:${dataDia[i]}:${dataHora[i]}:${dataMin[i]}`)
+    }
+
+    optionLine.xAxis.data = dataXaxis;
+    optionLine.series[0].data = dataTThe;
+    line_chart.setOption(optionLine, true);
+
+    refSetIntervalLine = setInterval(() =>{
+        console.log('running')
+        updateDataLine(valueForChartLine);
+    }, 60000);
+};
+
+const btn1 = document.getElementById('btn-1');
+const btn2 = document.getElementById('btn-2');
+const btn3 = document.getElementById('btn-3');
+const btn4 = document.getElementById('btn-4');
+
 window.addEventListener('DOMContentLoaded', (e) => {
     updateDataTThe1();
     updateDataTThe2();
     updateDataTThe3();
     updateDataTThe4();
+    btn1.style.backgroundColor = '#0d6efd';
+    btn1.style.borderColor = '#0d6efd';
+    btn2.style.backgroundColor = '#fd7347';
+    btn2.style.borderColor = '#fd7347';
+    btn3.style.backgroundColor = '#fd7347';
+    btn3.style.borderColor = '#fd7347';
+    btn4.style.backgroundColor = '#fd7347';
+    btn4.style.borderColor = '#fd7347';
+    updateDataLine(valueForChartLine);
+});
+
+btn1.addEventListener('click',  (e) => {
+    btn1.style.backgroundColor = '#0d6efd';
+    btn1.style.borderColor = '#0d6efd';
+    btn2.style.backgroundColor = '#fd7347';
+    btn2.style.borderColor = '#fd7347';
+    btn3.style.backgroundColor = '#fd7347';
+    btn3.style.borderColor = '#fd7347';
+    btn4.style.backgroundColor = '#fd7347';
+    btn4.style.borderColor = '#fd7347';
+
+    valueForChartLine = 'Refrigerador/TThe1';
+    updateDataLine(valueForChartLine);
+});
+
+btn2.addEventListener('click',  (e) => {
+    btn1.style.backgroundColor = '#fd7347';
+    btn1.style.borderColor = '#fd7347';
+    btn2.style.backgroundColor = '#0d6efd';
+    btn2.style.borderColor = '#0d6efd';
+    btn3.style.backgroundColor = '#fd7347';
+    btn3.style.borderColor = '#fd7347';
+    btn4.style.backgroundColor = '#fd7347';
+    btn4.style.borderColor = '#fd7347';
+
+    valueForChartLine = 'Refrigerador/TThe2';
+    updateDataLine(valueForChartLine);
+});
+
+btn3.addEventListener('click',  (e) => {
+    btn1.style.backgroundColor = '#fd7347';
+    btn1.style.borderColor = '#fd7347';
+    btn2.style.backgroundColor = '#fd7347';
+    btn2.style.borderColor = '#fd7347';
+    btn3.style.backgroundColor = '#0d6efd';
+    btn3.style.borderColor = '#0d6efd';
+    btn4.style.backgroundColor = '#fd7347';
+    btn4.style.borderColor = '#fd7347';
+
+    valueForChartLine = 'Refrigerador/TThe3';
+    updateDataLine(valueForChartLine);
+});
+
+btn4.addEventListener('click',  (e) => {
+    btn1.style.backgroundColor = '#fd7347';
+    btn1.style.borderColor = '#fd7347';
+    btn2.style.backgroundColor = '#fd7347';
+    btn2.style.borderColor = '#fd7347';
+    btn3.style.backgroundColor = '#fd7347';
+    btn3.style.borderColor = '#fd7347';
+    btn4.style.backgroundColor = '#0d6efd';
+    btn4.style.borderColor = '#0d6efd';
+
+    valueForChartLine = 'Refrigerador/TThe4';
+    updateDataLine(valueForChartLine);
 });
