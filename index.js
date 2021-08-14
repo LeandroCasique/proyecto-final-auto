@@ -10,11 +10,12 @@ const ter_3_chart = echarts.init(ter_3);
 const ter_4 = document.getElementById("ter-4");
 const ter_4_chart = echarts.init(ter_4);
 
-let app = {};
+const line = document.getElementById("line-chart");
+const line_chart = echarts.init(line);
 
-let option;
+let optionThermistor;
 
-option = {
+optionThermistor = {
     series: [{
             type: 'gauge',
             center: ["50%", "60%"],
@@ -124,16 +125,30 @@ option = {
     ],
 };
 
-/*setInterval(function() {
-    let random = (Math.random() * 60).toFixed(2) - 0;
-    option.series[0].data[0].value = random;
-    option.series[1].data[0].value = random;
-    myChart.setOption(option, true);
-}, 2000);*/
+var optionLine;
 
-if (option && typeof option === 'object') {
-    ter_1_chart.setOption(option);
-    ter_2_chart.setOption(option);
-    ter_3_chart.setOption(option);
-    ter_4_chart.setOption(option);
+optionLine = {
+    xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [25, 30, 45, 48, 10, 15, 55],
+        type: 'line',
+        smooth: true
+    }]
+};
+
+if (optionLine && typeof optionLine === 'object') {
+    line_chart.setOption(optionLine);
+}
+
+if (optionThermistor && typeof optionThermistor === 'object') {
+    ter_1_chart.setOption(optionThermistor);
+    ter_2_chart.setOption(optionThermistor);
+    ter_3_chart.setOption(optionThermistor);
+    ter_4_chart.setOption(optionThermistor);
 }
