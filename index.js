@@ -81,11 +81,13 @@ let optionThermistor = {
                 offsetCenter: [0, '-15%'],
                 fontSize: 20,
                 fontWeight: 'bolder',
-                formatter: '{value} °C',
+                formatter: function (value) {
+                    return `${value.toFixed(2)} °C`;
+                },
                 color: 'auto'
             },
             data: [{
-                value: 20
+                value: 0
             }]
         },
 
@@ -123,7 +125,7 @@ let optionThermistor = {
                 show: false
             },
             data: [{
-                value: 20,
+                value: 0,
             }]
 
         }
