@@ -99,6 +99,7 @@ let optionThermistor = {
             itemStyle: {
                 color: '#FD7347',
             },
+            
             progress: {
                 show: true,
                 width: 8
@@ -143,7 +144,7 @@ let optionLine = {
         type: 'line',
         smooth: true,
         lineStyle: {
-            color: "#000"
+            color: "#fd7347"
         } 
     }]
 };
