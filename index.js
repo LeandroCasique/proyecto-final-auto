@@ -157,7 +157,7 @@ let optionLine = {
         smooth: true,
         lineStyle: {
             color: "#fd7347"
-        } 
+        },
     }]
 };
 
@@ -369,8 +369,8 @@ window.addEventListener('DOMContentLoaded', (e) => {
     updateDataTThe2();
     updateDataTThe3();
     updateDataTThe4();
-    btn1.style.backgroundColor = '#0d6efd';
-    btn1.style.borderColor = '#0d6efd';
+    btn1.style.backgroundColor = '#f5460c';
+    btn1.style.borderColor = '#f5460c';
     btn2.style.backgroundColor = '#fd7347';
     btn2.style.borderColor = '#fd7347';
     btn3.style.backgroundColor = '#fd7347';
@@ -381,8 +381,8 @@ window.addEventListener('DOMContentLoaded', (e) => {
 });
 
 btn1.addEventListener('click',  (e) => {
-    btn1.style.backgroundColor = '#0d6efd';
-    btn1.style.borderColor = '#0d6efd';
+    btn1.style.backgroundColor = '#f5460c';
+    btn1.style.borderColor = '#f5460c';
     btn2.style.backgroundColor = '#fd7347';
     btn2.style.borderColor = '#fd7347';
     btn3.style.backgroundColor = '#fd7347';
@@ -397,8 +397,8 @@ btn1.addEventListener('click',  (e) => {
 btn2.addEventListener('click',  (e) => {
     btn1.style.backgroundColor = '#fd7347';
     btn1.style.borderColor = '#fd7347';
-    btn2.style.backgroundColor = '#0d6efd';
-    btn2.style.borderColor = '#0d6efd';
+    btn2.style.backgroundColor = '#f5460c';
+    btn2.style.borderColor = '#f5460c';
     btn3.style.backgroundColor = '#fd7347';
     btn3.style.borderColor = '#fd7347';
     btn4.style.backgroundColor = '#fd7347';
@@ -413,8 +413,8 @@ btn3.addEventListener('click',  (e) => {
     btn1.style.borderColor = '#fd7347';
     btn2.style.backgroundColor = '#fd7347';
     btn2.style.borderColor = '#fd7347';
-    btn3.style.backgroundColor = '#0d6efd';
-    btn3.style.borderColor = '#0d6efd';
+    btn3.style.backgroundColor = '#f5460c';
+    btn3.style.borderColor = '#f5460c';
     btn4.style.backgroundColor = '#fd7347';
     btn4.style.borderColor = '#fd7347';
 
@@ -429,8 +429,8 @@ btn4.addEventListener('click',  (e) => {
     btn2.style.borderColor = '#fd7347';
     btn3.style.backgroundColor = '#fd7347';
     btn3.style.borderColor = '#fd7347';
-    btn4.style.backgroundColor = '#0d6efd';
-    btn4.style.borderColor = '#0d6efd';
+    btn4.style.backgroundColor = '#f5460c';
+    btn4.style.borderColor = '#f5460c';
 
     valueForChartLine = 'Refrigerador/TThe4';
     updateDataLine(valueForChartLine);
